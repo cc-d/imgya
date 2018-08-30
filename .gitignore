@@ -17,4 +17,4 @@ dist/
 build/
 *.egg-info/
 
-prod_config.py
+*_config.py
