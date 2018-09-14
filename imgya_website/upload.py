@@ -12,12 +12,19 @@ def allowed_file(filename):
 	else:
 		return True
 
-def reserve_id(filename, extension):
+def reserve_id(filename, extension, mimetype):
 	extension = extension.lower()
-	file_type = 'misc'
-	for key, value in current_app.config['TYPE_EXTENSIONS'].items():
-		if extension in value:
-			file_type = key
+	file_type = False
+	file_types = ['image', 'video', 'audio']
+	if mimetype.split('/')[0] in file_types:
+		file_type = mimetype.split('/')[0]
+
+	if not file_type:
+		return False
+	#for key, value in current_app.config['TYPE_EXTENSIONS'].items():
+	#	if extension in value:
+	#		file_type = key
+
 	db = get_db()
 	file_id = db.engine.execute("INSERT INTO files (extension, original_name, type) values (%s, %s, %s); SELECT currval('files_id_seq');",
 	(extension, filename, file_type)).fetchone()
@@ -40,9 +47,10 @@ def upload_file():
 
 		if file and allowed_file(file.filename):
 			filename = secure_filename(file.filename)
+			mimetype = file.content_type
 			extension = filename.split('.')[-1]
 			extension = extension.lower()
-			file_id = reserve_id(filename, extension)
+			file_id = reserve_id(filename, extension, mimetype)
 			base58_filename = file_id + '.' + extension
 			file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], base58_filename))
 			return redirect(current_app.config['FLASK_UPLOAD_SYMLINK'] + base58_filename)
