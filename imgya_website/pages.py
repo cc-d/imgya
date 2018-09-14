@@ -13,13 +13,13 @@ def index():
 
 @bp.route('/i/<image_name>')
 def image_page(image_name):
-	if image_name not in current_app.config['HTML_URLS']:
+	if image_name.find('.') == -1:
 		db = get_db()
 		extension = db.engine.execute("select extension from files where id=%s", base58_decode(image_name))
 		extension = extension.fetchone()[0]
 		return render_template('image_page.html', image_name=image_name, image_extension=extension)
 	else:
-		return render_template('%s.html')
+		return redirect(current_app.config['FLASK_UPLOAD_SYMLINK'] + file)
 
 @bp.route('/d/<file>')
 def direct_file(file):
