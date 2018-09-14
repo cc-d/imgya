@@ -45,7 +45,7 @@ def upload_file():
 			file_id = reserve_id(filename, extension)
 			base58_filename = file_id + '.' + extension
 			file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], base58_filename))
-			return redirect('/static/images/' + base58_filename)
+			return redirect(current_app.config['FLASK_UPLOAD_SYMLINK'] + base58_filename)
 
 	return render_template('upload.html')
 

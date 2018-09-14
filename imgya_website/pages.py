@@ -18,6 +18,10 @@ def image_page(image_name):
 	extension = extension.fetchone()[0]
 	return render_template('image_page.html', image_name=image_name, image_extension=extension)
 
+@bp.route('/d/<file>')
+def direct_file(file):
+	return redirect(current_app.config['FLASK_UPLOAD_SYMLINK'] + file)
+
 @bp.route('/test')
 def test():
 	db = get_db()
