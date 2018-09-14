@@ -1,0 +1,1 @@
+symlink static/images/ and your image dir ex /images/

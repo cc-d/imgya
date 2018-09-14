@@ -18,3 +18,5 @@ build/
 *.egg-info/
 
 *_config.py
+
+static/images/*
