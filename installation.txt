@@ -1,1 +1,46 @@
-symlink static/images/ and your image dir ex /images/
+This file is the complete process of deploying this code on to a fresh server.
+This will be automated in the future, for now it's intended as a reference for those who are familiar with this software.
+
+----
+sudo apt-get update && sudo apt-get upgrade
+sudo apt-get install python3-pip python3-dev nginx
+
+sudo pip3 install virtualenv
+
+git clone https://github.com/cc-d/imgya.git
+
+virtualenv venv
+source venv/bin/activate
+
+pip install -r requirements.txt
+
+pip install uwsgi
+
+uwsgi --socket 0.0.0.0:5000 --protocol=http -w wsgi:app
+
+sudo mkdir /var/log/uwsgi
+sudo chmod -R 775 /var/log/uwsgi/
+sudo chown cary:www-data /var/log/uwsgi/
+
+
+PLACE DEV CONFIG
+
+create /images/ give proper permissions 775, remember both chown and chmod, change symlink in static/ to new /images/ location if desired
+
+--------------
+
+sudo vi /etc/systemd/system/imgya.service
+sudo systemctl enable imgya.service
+sudo systemctl restart imgya.service
+
+sudo systemctl daemon-reload
+
+sudo vi /etc/nginx/sites-available/imgya
+
+sudo add-apt-repository ppa:certbot/certbot
+sudo apt-get update
+sudo apt-get install python-certbot-nginx
+
+sudo certbot renew --dry-run
+
+-----
