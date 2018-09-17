@@ -16,7 +16,8 @@ def reserve_id(filename, extension, mimetype):
 	file_types = ['image', 'video', 'audio']
 
 	if mimetype.split('/')[0] in file_types:
-		file_type = mimetype.split('/')[0]
+		#file_type = mimetype.split('/')[0]
+		file_type = mimetype.split('/')[0] + '/' + mimetype.split('/')[1]
 		db = get_db()
 		file_id = db.engine.execute("INSERT INTO files (extension, original_name, type) values (%s, %s, %s); SELECT currval('files_id_seq');",
 		(extension, filename, file_type)).fetchone()

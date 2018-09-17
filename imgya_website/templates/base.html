@@ -6,6 +6,7 @@
 <script type="text/javascript" src="{{ url_for('static', filename = 'js/jquery-3.3.1.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename = 'js/bootstrap.min.js') }}"></script>
 
+<link rel="icon" type="image/png" href="{{ url_for('static', filename='img/tinycat.png') }}">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -25,14 +26,20 @@
       <li class="nav-item">
         <a class="nav-link" href="/login">Login</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/upload">Upload</a>
+      </li>
     </ul>
   </div>
 
-  <span class="navbar-text">
-    {% if g.user %}
-      {{ g.user['username'] }}
-    {% endif %}
-  </span>
+  <ul class="nav navbar-nav navbar-right">
+          <p>Envelope icon: <span class="glyphicon glyphicon-envelope"></span></p> 
+    <span class="navbar-text">
+      {% if g.user %}
+        {{ g.user['username'] }}
+      {% endif %}
+    </span>
+  </ul>
 </nav>
 
 <section class="content">
