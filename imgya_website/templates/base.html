@@ -1,45 +1,73 @@
-<!doctype html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <title>imgya</title>
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/base.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
+
 <script type="text/javascript" src="{{ url_for('static', filename = 'js/jquery-3.3.1.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename = 'js/bootstrap.min.js') }}"></script>
 
 <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/tinycat.png') }}">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="/">imgya</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
 
+<!-- Start Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+  <!-- Brand -->
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+  <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" href="/">
+    <img style="height: 1.3em; width: 1.3em;" src="{{ url_for('static', filename='img/tinycat.png') }}" alt="">
+    imgya
+  </a>
+  <!-- Navbar Left -->
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" href="/">Home</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/register">Register</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/login">Login</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/upload">Upload</a>
+        <a class="nav-link text-light" href="/upload">
+          <span class="fa fa-cloud-upload text-light">
+          </span>
+        Upload
+      </a>
       </li>
     </ul>
+  <!-- Navbar Right -->
+  <ul class="navbar-nav ml-auto order-5 navbar-right">
+  {% if g.user %}
+      <li class="nav-item">
+        <a class="nav-link text-light" href="/">
+        <span class="fa fa-user-circle-o text-light">
+        </span>
+        {{ g.user['username'] }}
+      </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-light" href="/logout">
+        <span class="fa fa-sign-out text-light">
+        </span>
+        Logout</a>
+      </li>
+  {% else %}
+      <li class="nav-item">
+        <a class="nav-link text-light" href="/register">
+        <span class="fa fa-user-plus text-light">
+        </span>
+        Register</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-light" href="/login">
+        <span class="fa fa-sign-in text-light">
+        </span>
+        Login</a>
+      </li>
+    {% endif %}
+  </ul>
   </div>
 
-  <ul class="nav navbar-nav navbar-right">
-          <p>Envelope icon: <span class="glyphicon glyphicon-envelope"></span></p> 
-    <span class="navbar-text">
-      {% if g.user %}
-        {{ g.user['username'] }}
-      {% endif %}
-    </span>
-  </ul>
 </nav>
 
 <section class="content">
@@ -51,3 +79,4 @@
 </section>
 
 </body>
+</html>
