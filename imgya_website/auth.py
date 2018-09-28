@@ -28,10 +28,17 @@ def register():
             error = 'User %s is already registered.' % (username)
 
         if error is None:
-            db.engine.execute(
+            reg = db.engine.execute(
                 "INSERT INTO users (username, password, email) VALUES (%s, %s, %s);",
                 (username, generate_password_hash(password), email)
             )
+            if reg is None:
+                error = 'Unable to register new account'
+            elif error is None and reg is not None:
+                user = db.engine.execute("SELECT * FROM users WHERE username = %s;", (username)).fetchone()
+                session.clear()
+                session['user_id'] = user['id']
+
             return redirect(url_for('auth.login'))
 
         flash(error)
@@ -44,12 +51,25 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        email = request.form['email']
+        if valid_email(username):
+            email = username
+            authtype = 'email'
+        else:
+            authtype = 'username'
+
         error = None
 
-        if valid_username(username) and valid_email(email):
+        if authtype == 'username' and valid_username(username):
             user = db.engine.execute(
-                "SELECT * FROM users WHERE username = %s OR email = %s;", (username, email)).fetchone()
+                "SELECT * FROM users WHERE username = %s;", (username)).fetchone()
+            if user is None:
+                error = 'Incorrect username or email.'
+            elif not check_password_hash(user['password'], password):
+                error = 'Incorrect password.'
+
+        elif authtype == 'email' or valid_email(email):
+            user = db.engine.execute(
+                "SELECT * FROM users WHERE email = %s;", (email)).fetchone()
             if user is None:
                 error = 'Incorrect username or email.'
             elif not check_password_hash(user['password'], password):
