@@ -54,7 +54,8 @@ def upload_files():
 		elif len(file_list) == 1:
 			for file in file_list:
 				base58_filename = upload_file(file)
-				return redirect(current_app.config['FLASK_UPLOAD_SYMLINK'] + base58_filename)
+				#return redirect(current_app.config['FLASK_UPLOAD_SYMLINK'] + base58_filename)
+				return redirect('i/' + base58_filename.split('.')[0])
 
 		elif len(file_list) > 1:
 			album_files = []

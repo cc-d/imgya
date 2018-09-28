@@ -4,5 +4,20 @@
 
 .user-icon-name {
 	margin-right: 1em;
+}
 
+.preview-thumbnail {
+	height: 100px;
+	width: 100px;
+}
+
+#preview-box {
+	height: 100px;
+	width: 300px;
+	border: 1px solid yellow;
+}
+
+.card {
+	max-width: 200px;
+	max-height: 200px;
 }

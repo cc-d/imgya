@@ -2,6 +2,8 @@
 
 {% block content %}
 	{% for id in album_ids %}
-		{{ id }}
+		<div class="albumImage">
+			<img src="/i/{{ id }}"></img>
+		</div>
 	{% endfor %}
 {% endblock %}

@@ -1,10 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<script type="text/javascript" src="{{ url_for('static', filename = 'js/upload.js') }}"></script>
+	<div id="previews" class="card-deck">
+	</div>
     <title>Upload new File</title>
     <h1>Upload new File</h1>
-    <form method=post enctype=multipart/form-data>
-      <input type=file name=file multiple>
+    <form id=preview-form method=post enctype=multipart/form-data>
+      <input type=file name=file id=img-input multiple>
       <input type=submit value=Upload>
     </form>
 {% endblock %}
